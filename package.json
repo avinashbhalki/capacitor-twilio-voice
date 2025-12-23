@@ -1,5 +1,5 @@
 {
-  "name": "@your-scope/capacitor-twilio-voice",
+  "name": "@avinashbhalki/capacitor-twilio-voice",
   "version": "1.0.0",
   "description": "Twilio Voice plugin for Capacitor (iOS + Android)",
   "peerDependencies": { "@capacitor/core": "^5.0.0" }
