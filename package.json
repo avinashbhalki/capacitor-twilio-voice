@@ -64,7 +64,8 @@
         "typescript": "~5.4.2"
     },
     "peerDependencies": {
-        "@capacitor/core": "^8.0.0"
+        "@capacitor/core": "^8.0.0",
+        "@angular/core": ">=14.0.0"
     },
     "prettier": "@ionic/prettier-config",
     "eslintConfig": {
