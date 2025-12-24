@@ -48,33 +48,57 @@ This command will:
 
 ### 4.1 Update Android Permissions
 
+
 The plugin automatically adds required permissions, but ensure your app's `AndroidManifest.xml` includes:
 
 ```xml
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  <!-- Required for capturing microphone audio during calls -->
 <uses-permission android:name="android.permission.BLUETOOTH" />
+  <!-- Required for Bluetooth audio devices (headsets, speakers) -->
 <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+  <!-- Required for managing Bluetooth connections on Android 12+ -->
 <uses-permission android:name="android.permission.INTERNET" />
+  <!-- Required for connecting to Twilio Voice services -->
 ```
 
-These are already declared in the plugin's manifest and will be merged automatically.
+**Permission Details:**
+- `RECORD_AUDIO`: Allows the app to access the device microphone for voice calls.
+- `BLUETOOTH` and `BLUETOOTH_CONNECT`: Enable support for Bluetooth audio devices (headsets, speakers) and are required for Android 12+.
+- `INTERNET`: Required for all network communication with Twilio Voice servers.
+
+These permissions are already declared in the plugin's manifest and will be merged automatically when you run `npx cap sync`. No manual changes are needed unless your app has custom permission requirements.
 
 ### 4.2 Request Runtime Permissions
 
-In your app, request microphone permission before making calls:
+In your app, request microphone permission before making calls. The plugin handles this automatically, but you can also request it manually:
 
 ```typescript
-import { Plugins } from '@capacitor/core';
-const { Permissions } = Plugins;
+import { Permissions } from '@capacitor/core';
 
 async requestMicrophonePermission() {
-  const result = await Permissions.query({ name: 'microphone' });
-
-  if (result.state !== 'granted') {
-    await Permissions.request({ name: 'microphone' });
+  try {
+    const result = await Permissions.query({ name: 'microphone' });
+    
+    if (result.state !== 'granted') {
+      const requestResult = await Permissions.request({ name: 'microphone' });
+      if (requestResult.state !== 'granted') {
+        console.warn('Microphone permission denied');
+        return false;
+      }
+    }
+    return true;
+  } catch (error) {
+    console.error('Error requesting microphone permission:', error);
+    return false;
   }
 }
+
+// Call this before attempting to make a call
+await requestMicrophonePermission();
 ```
+
+**Note:** The plugin will automatically request microphone permission when `startCall()` is invoked if not already granted. However, it's good practice to request it earlier in your app flow for a better user experience.
 
 ### 4.3 Build and Run on Android
 
@@ -198,6 +222,7 @@ import { TwilioVoice } from 'capacitor-twilio-voice';
 export class HomePage {
 
   private accessToken: string = '';
+  public phoneNumber: string = '+1234567890'; // Default phone number
 
   constructor() {
     this.setupEventListeners();
@@ -245,11 +270,14 @@ export class HomePage {
       return;
     }
 
-    const phoneNumber = '+1234567890'; // Replace with actual phone number
+    if (!this.phoneNumber || this.phoneNumber.trim() === '') {
+      alert('Please enter a valid phone number');
+      return;
+    }
 
     try {
       await TwilioVoice.startCall({
-        toNumber: phoneNumber,
+        toNumber: this.phoneNumber,
         accessToken: this.accessToken
       });
 
@@ -292,6 +320,22 @@ export class HomePage {
 ### 7.2 Update the Template
 
 In your template (e.g., `home.page.html`):
+
+**Note:** Make sure to import `FormsModule` in your module for `[(ngModel)]` to work:
+
+```typescript
+// In your app.module.ts or home.module.ts
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  imports: [
+    // ... other imports
+    FormsModule
+  ],
+  // ...
+})
+export class HomePageModule { }
+```
 
 ```html
 <ion-header>
