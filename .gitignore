@@ -1,0 +1,14 @@
+.idea
+.DS_Store
+*.iml
+node_modules/
+dist/
+android/build/
+android/.gradle/
+android/.idea/
+android/local.properties
+ios/Pods/
+ios/.build/
+ios/Plugin.xcworkspace/xcuserdata/
+*.xcuserstate
+.swiftpm
