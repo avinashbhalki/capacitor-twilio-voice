@@ -21,7 +21,7 @@ class CallActivity : AppCompatActivity() {
 
     private var activeCall: Call? = null
     private var accessToken: String = ""
-    private var toNumber: String = ""
+    private var to: String = ""
     
     private var isMuted = false
     private var isSpeakerOn = false
@@ -97,10 +97,10 @@ class CallActivity : AppCompatActivity() {
         setContentView(R.layout.activity_call)
 
         // Get intent extras
-        toNumber = intent.getStringExtra("toNumber") ?: ""
+        to = intent.getStringExtra("to") ?: ""
         accessToken = intent.getStringExtra("accessToken") ?: ""
 
-        if (toNumber.isEmpty() || accessToken.isEmpty()) {
+        if (to.isEmpty() || accessToken.isEmpty()) {
             Toast.makeText(this, "Invalid call parameters", Toast.LENGTH_SHORT).show()
             finish()
             return
@@ -118,7 +118,7 @@ class CallActivity : AppCompatActivity() {
         btnSpeaker = findViewById(R.id.btnSpeaker)
         btnEndCall = findViewById(R.id.btnEndCall)
 
-        tvNumber.text = toNumber
+        tvNumber.text = to
         tvStatus.text = "Connecting..."
         
         // Disable controls initially
@@ -142,7 +142,7 @@ class CallActivity : AppCompatActivity() {
 
     private fun initiateCall() {
         try {
-            val params = hashMapOf("To" to toNumber)
+            val params = hashMapOf("To" to to)
             val connectOptions = ConnectOptions.Builder(accessToken)
                 .params(params)
                 .build()

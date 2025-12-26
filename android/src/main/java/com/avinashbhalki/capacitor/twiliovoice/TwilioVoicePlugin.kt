@@ -25,11 +25,11 @@ class TwilioVoicePlugin : Plugin() {
 
     @PluginMethod
     fun call(call: PluginCall) {
-        val toNumber = call.getString("toNumber")
+        val to = call.getString("to")
         val accessToken = call.getString("accessToken")
 
-        if (toNumber.isNullOrEmpty()) {
-            call.reject("toNumber is required")
+        if (to.isNullOrEmpty()) {
+            call.reject("to is required")
             return
         }
 
@@ -46,10 +46,10 @@ class TwilioVoicePlugin : Plugin() {
         }
 
         // Start call activity
-        startCallActivity(toNumber, accessToken, call)
+        startCallActivity(to, accessToken, call)
     }
 
-    private fun hasRequiredPermissions(): Boolean {
+    override fun hasRequiredPermissions(): Boolean {
         return REQUIRED_PERMISSIONS.all { permission ->
             ContextCompat.checkSelfPermission(
                 context,
@@ -66,21 +66,21 @@ class TwilioVoicePlugin : Plugin() {
         )
     }
 
-    override fun handleOnRequestPermissionsResult(
+    override fun handleRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.handleOnRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.handleRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == PERMISSION_REQUEST_CODE) {
             val allGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
-            
+
             if (allGranted) {
                 pendingCall?.let { call ->
-                    val toNumber = call.getString("toNumber") ?: ""
+                    val to = call.getString("to") ?: ""
                     val accessToken = call.getString("accessToken") ?: ""
-                    startCallActivity(toNumber, accessToken, call)
+                    startCallActivity(to, accessToken, call)
                 }
             } else {
                 pendingCall?.reject("Permissions denied")
@@ -89,10 +89,10 @@ class TwilioVoicePlugin : Plugin() {
         }
     }
 
-    private fun startCallActivity(toNumber: String, accessToken: String, call: PluginCall) {
+    private fun startCallActivity(to: String, accessToken: String, call: PluginCall) {
         try {
             val intent = Intent(context, CallActivity::class.java).apply {
-                putExtra("toNumber", toNumber)
+                putExtra("to", to)
                 putExtra("accessToken", accessToken)
             }
             activity.startActivity(intent)
