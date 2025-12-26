@@ -142,7 +142,7 @@ class CallActivity : AppCompatActivity() {
 
     private fun initiateCall() {
         try {
-            val params = hashMapOf("To" to to)
+            val params = hashMapOf("to" to to)
             val connectOptions = ConnectOptions.Builder(accessToken)
                 .params(params)
                 .build()
