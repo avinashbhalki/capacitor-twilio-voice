@@ -62,9 +62,10 @@ capacitor-twilio-voice/
 
 ## 🎯 Features Implemented
 
-### ✅ Core Functionality
-- [x] Native call initiation with Twilio Voice SDK
-- [x] Full-screen native UI (not WebView)
+### ✅ Core Functional Requirements:
+- [x] call() method with to and accessToken
+- [x] Opens NEW NATIVE SCREEN
+native UI (not WebView)
 - [x] Automatic screen dismissal on call end
 
 ### ✅ Call Controls
@@ -138,7 +139,7 @@ import { TwilioVoice } from '@avinashbhalki/capacitor-twilio-voice';
 async function makeCall() {
   try {
     await TwilioVoice.call({
-      toNumber: '+919999999999',
+      to: '+919999999999',
       accessToken: 'YOUR_TWILIO_ACCESS_TOKEN'
     });
     console.log('Call initiated!');

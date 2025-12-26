@@ -36,7 +36,7 @@ Initiates a Twilio Voice call with a native UI.
 
 #### Parameters
 
-- **options.toNumber** (string): The phone number to call (E.164 format recommended)
+- **options.to** (string): The phone number to call (E.164 format recommended)
 - **options.accessToken** (string): Twilio Access Token for authentication
 
 #### Example
@@ -46,7 +46,7 @@ import { TwilioVoice } from '@avinashbhalki/capacitor-twilio-voice';
 
 try {
   await TwilioVoice.call({
-    toNumber: '+919999999999',
+    to: '+919999999999',
     accessToken: 'YOUR_TWILIO_ACCESS_TOKEN'
   });
   console.log('Call initiated successfully');

@@ -81,7 +81,7 @@ import { TwilioVoice } from '@avinashbhalki/capacitor-twilio-voice';
 async function makeCall() {
   try {
     await TwilioVoice.call({
-      toNumber: '+1234567890',
+      to: '+1234567890',
       accessToken: 'YOUR_TWILIO_TOKEN'
     });
   } catch (error) {

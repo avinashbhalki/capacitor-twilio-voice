@@ -158,7 +158,7 @@ export class HomePage {
 
     try {
       await TwilioVoice.call({
-        toNumber: this.phoneNumber,
+        to: this.phoneNumber,
         accessToken: this.accessToken
       });
       console.log('Call initiated successfully');

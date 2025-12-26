@@ -10,8 +10,8 @@ import TwilioVoice
 public class TwilioVoicePlugin: CAPPlugin {
     
     @objc func call(_ call: CAPPluginCall) {
-        guard let toNumber = call.getString("toNumber") else {
-            call.reject("toNumber is required")
+        guard let to = call.getString("to") else {
+            call.reject("to is required")
             return
         }
         
@@ -22,7 +22,7 @@ public class TwilioVoicePlugin: CAPPlugin {
         
         DispatchQueue.main.async {
             let callViewController = CallViewController()
-            callViewController.toNumber = toNumber
+            callViewController.to = to
             callViewController.accessToken = accessToken
             callViewController.modalPresentationStyle = .fullScreen
             

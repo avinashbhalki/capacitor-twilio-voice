@@ -164,7 +164,7 @@ import { TwilioVoice } from '@avinashbhalki/capacitor-twilio-voice';
 
 // Make a call
 await TwilioVoice.call({
-  toNumber: '+919999999999',
+  to: '+919999999999',
   accessToken: 'YOUR_TWILIO_TOKEN'
 });
 

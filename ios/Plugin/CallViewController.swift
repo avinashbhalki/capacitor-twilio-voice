@@ -8,7 +8,7 @@ import Capacitor
 public class CallViewController: UIViewController {
     
     // MARK: - Properties
-    var toNumber: String = ""
+    var to: String = ""
     var accessToken: String = ""
     
     private var activeCall: Call?
@@ -79,7 +79,7 @@ public class CallViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
-        numberLabel.text = toNumber
+        numberLabel.text = to
         
         setupUI()
         setupCallKit()
@@ -156,14 +156,14 @@ public class CallViewController: UIViewController {
         
         // Connect with Twilio
         let connectOptions = ConnectOptions(accessToken: accessToken) { builder in
-            builder.params = ["To": self.toNumber]
+            builder.params = ["To": self.to]
             builder.uuid = uuid
         }
         
         activeCall = TwilioVoiceSDK.connect(options: connectOptions, delegate: self)
         
         // Report call to CallKit
-        let handle = CXHandle(type: .phoneNumber, value: toNumber)
+        let handle = CXHandle(type: .phoneNumber, value: to)
         let startCallAction = CXStartCallAction(call: uuid, handle: handle)
         let transaction = CXTransaction(action: startCallAction)
         

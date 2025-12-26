@@ -96,7 +96,7 @@
 
 ### Plugin Method:
 - [x] `call(options: CallOptions): Promise<void>`
-  - [x] toNumber parameter
+  - [x] to parameter
   - [x] accessToken parameter
   - [x] Input validation
   - [x] Error handling
@@ -266,7 +266,7 @@ All required features from specification:
 - [x] Native UI plugin (not WebView)
 
 ### Functional Requirements:
-- [x] call() method with toNumber and accessToken
+- [x] call() method with to and accessToken
 - [x] Opens NEW NATIVE SCREEN
 - [x] Initiates Twilio Voice call
 - [x] Mute button (toggle microphone)
