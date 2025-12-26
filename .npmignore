@@ -1,0 +1,13 @@
+*.md
+!README.md
+.vscode/
+.idea/
+node_modules/
+android/build/
+ios/build/
+ios/Pods/
+src/
+*.ts
+!dist/**/*.d.ts
+tsconfig.json
+rollup.config.js
