@@ -1,21 +1,8 @@
-import Foundation
-import Capacitor
+#import <Foundation/Foundation.h>
+#import <Capacitor/Capacitor.h>
 
-/**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
- */
-@objc(TwilioVoicePlugin)
-public class TwilioVoicePlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "TwilioVoicePlugin"
-    public let jsName = "TwilioVoice"
-    public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "call", returnType: CAPPluginReturnPromise)
-    ]
-    
-    private let implementation = TwilioVoice()
-
-    @objc func call(_ call: CAPPluginCall) {
-        implementation.call(call, bridge: self.bridge)
-    }
-}
+// Define the plugin with the JS name and methods
+// This makes the 'call' method visible to the Capacitor bridge
+CAP_PLUGIN(TwilioVoicePlugin, "TwilioVoice",
+           CAP_PLUGIN_METHOD(call, CAPPluginReturnPromise);
+)
