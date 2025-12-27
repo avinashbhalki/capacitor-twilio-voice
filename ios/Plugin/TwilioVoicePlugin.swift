@@ -1,14 +1,17 @@
 import Foundation
 import Capacitor
-import TwilioVoice
 
 /**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
+ * Twilio Voice Plugin for Capacitor 6
  */
 @objc(TwilioVoicePlugin)
-public class TwilioVoicePlugin: CAPPlugin {
-    
+public class TwilioVoicePlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "TwilioVoicePlugin"
+    public let jsName = "TwilioVoice"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "call", returnType: CAPPluginReturnPromise)
+    ]
+
     @objc func call(_ call: CAPPluginCall) {
         guard let to = call.getString("to") else {
             call.reject("to is required")
