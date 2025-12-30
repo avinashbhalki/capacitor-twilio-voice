@@ -117,16 +117,20 @@ pod install
 cd ../..
 ```
 
-### 5.3 Enable Background Modes in Xcode
+### 5.3 Enable Background Modes in Xcode (CRITICAL)
 
-1. Open `ios/App/App.xcworkspace` in Xcode
-2. Select your app target
-3. Go to "Signing & Capabilities"
-4. Click "+ Capability"
-5. Add "Background Modes"
-6. Check:
-   - ✅ Audio, AirPlay, and Picture in Picture
-   - ✅ Voice over IP
+This is the most common cause of "CallKit Error 1" (Invalid Action). These steps **must** be performed manually:
+
+1. Open `ios/App/App.xcworkspace` in Xcode.
+2. Select the **App** project in the navigator, then select your **App Target**.
+3. Go to the **Signing & Capabilities** tab.
+4. Click the **+ Capability** button.
+5. Search for and add **Background Modes**.
+6. In the Background Modes list, check:
+   - ✅ **Audio, AirPlay, and Picture in Picture**
+   - ✅ **Voice over IP**
+
+If you are using a real device, ensure you have a valid **Development Team** selected in the "Signing" section.
 
 ## Step 6: Implement in Your Ionic App
 

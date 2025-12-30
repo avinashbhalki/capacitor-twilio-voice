@@ -115,12 +115,20 @@ cd ios/App
 pod install
 ```
 
-### 3. Enable Background Modes
+### 3. Enable Background Modes in Xcode (CRITICAL)
 
-In Xcode, select your app target, go to "Signing & Capabilities", and add:
-- Background Modes
-  - Audio, AirPlay, and Picture in Picture
-  - Voice over IP
+This step **must** be done manually in Xcode to avoid "CallKit Error 1":
+
+1. Open `ios/App/App.xcworkspace` in Xcode.
+2. Select your **App Target** in the project navigator.
+3. Click on the **Signing & Capabilities** tab.
+4. Click the **+ Capability** button in the top left.
+5. Search for and add **Background Modes**.
+6. Check the following boxes:
+   - ✅ **Audio, AirPlay, and Picture in Picture**
+   - ✅ **Voice over IP**
+
+> **Note**: Without these modes enabled, CallKit will reject the call transaction as an "Invalid Action" (Error 1).
 
 ## How to Get Twilio Access Token
 

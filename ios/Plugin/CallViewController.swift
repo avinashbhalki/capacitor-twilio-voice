@@ -138,7 +138,7 @@ public class CallViewController: UIViewController {
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
         configuration.supportsVideo = false
-        configuration.supportedHandleTypes = [.phoneNumber]
+        configuration.supportedHandleTypes = [.generic, .phoneNumber]
         
         callKitProvider = CXProvider(configuration: configuration)
         callKitProvider?.setDelegate(self, queue: nil)
@@ -163,13 +163,16 @@ public class CallViewController: UIViewController {
         activeCall = TwilioVoiceSDK.connect(options: connectOptions, delegate: self)
         
         // Report call to CallKit
-        let handle = CXHandle(type: .phoneNumber, value: to)
+        let handle = CXHandle(type: .generic, value: to)
         let startCallAction = CXStartCallAction(call: uuid, handle: handle)
         let transaction = CXTransaction(action: startCallAction)
         
+        print("Requesting CallKit transaction for UUID: \(uuid)")
         callKitCallController?.request(transaction) { error in
             if let error = error {
-                print("Error starting call: \(error.localizedDescription)")
+                print("Error starting call (CallKit Error 1 usually means missing Background Modes or incorrect handle): \(error.localizedDescription)")
+            } else {
+                print("CallKit transaction requested successfully")
             }
         }
     }
