@@ -8,9 +8,10 @@
   "unpkg": "dist/plugin.js",
   "files": [
     "android/",
-    "dist/",
     "ios/",
-    "src/"
+    "src/",
+    "dist/",
+    "Package.swift"
   ],
   "author": "Avinash Bhalki",
   "license": "MIT",
