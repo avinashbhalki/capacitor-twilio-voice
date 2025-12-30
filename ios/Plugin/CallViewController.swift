@@ -156,7 +156,7 @@ public class CallViewController: UIViewController {
         
         // Connect with Twilio
         let connectOptions = ConnectOptions(accessToken: accessToken) { builder in
-            builder.params = ["To": self.to]
+            builder.params = ["to": self.to]
             builder.uuid = uuid
         }
         
@@ -251,11 +251,13 @@ extension CallViewController: CXProviderDelegate {
     }
     
     public func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
-        TwilioVoiceSDK.audioEnabled = true
+        (TwilioVoiceSDK.audioDevice as? DefaultAudioDevice)?.isEnabled = true
+        
     }
     
     public func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
-        TwilioVoiceSDK.audioEnabled = false
+        (TwilioVoiceSDK.audioDevice as? DefaultAudioDevice)?.isEnabled = false
+        
     }
 }
 
@@ -281,7 +283,7 @@ extension CallViewController: CallDelegate {
         if let uuid = currentCallUUID {
             let endCallAction = CXEndCallAction(call: uuid)
             let transaction = CXTransaction(action: endCallAction)
-            callKitCallController?.request(transaction, completion: nil)
+            callKitCallController?.request(transaction, completion: { _ in })
         }
     }
     
@@ -299,7 +301,7 @@ extension CallViewController: CallDelegate {
         if let uuid = currentCallUUID {
             let endCallAction = CXEndCallAction(call: uuid)
             let transaction = CXTransaction(action: endCallAction)
-            callKitCallController?.request(transaction, completion: nil)
+            callKitCallController?.request(transaction, completion: { _ in })
         }
     }
     
